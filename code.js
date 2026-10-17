@@ -394,7 +394,7 @@ function buildIconComponents(host) {
 
 // ---------------- foundations page ----------------
 function swatch(parent, name, hex, note) {
-  const cell = F(parent, { gap: 6, nofill: true, w: 120, name: 'swatch/' + name });
+  const cell = F(parent, { gap: 4, nofill: true, w: 120, name: 'swatch/' + name });
   const box = F(cell, { h: 56, stretch: true, radius: 4, rawfill: hex, bstroke: 'border/hairline', name: 'sw' });
   T(cell, name, 'caption', 'text/default');
   T(cell, hex.toUpperCase(), 'code', 'text/muted');
@@ -463,21 +463,21 @@ function buildFoundations(page) {
     T(sec, 'Spacing', 'overline', 'text/muted');
     const srow = F(sec, { dir: 'HORIZONTAL', gap: 16, nofill: true, ai: 'CENTER' });
     for (const [n, v] of [['space/050', 4], ['space/100', 8], ['space/150', 12], ['space/200', 16], ['space/300', 24], ['space/400', 32], ['space/600', 48], ['space/800', 64]]) {
-      const c = F(srow, { gap: 6, nofill: true, ai: 'CENTER' });
+      const c = F(srow, { gap: 8, nofill: true, ai: 'CENTER' });
       const bar = F(c, { w: v, h: 24, rawfill: '#B8410F', radius: 2 });
       T(c, n, 'code', 'text/muted');
     }
     T(sec, 'Radius', 'overline', 'text/muted');
     const rrow = F(sec, { dir: 'HORIZONTAL', gap: 16, nofill: true });
     for (const [n, v] of [['radius/none', 0], ['radius/xs', 2], ['radius/sm', 4], ['radius/md', 6], ['radius/lg', 8]]) {
-      const c = F(rrow, { gap: 6, nofill: true, ai: 'CENTER' });
+      const c = F(rrow, { gap: 8, nofill: true, ai: 'CENTER' });
       F(c, { w: 64, h: 40, fill: 'surface/2', radius: v, bstroke: 'border/hairline' });
       T(c, n + ' · ' + v + 'px', 'code', 'text/muted');
     }
     T(sec, 'Surface (light)', 'overline', 'text/muted');
     const brow = F(sec, { dir: 'HORIZONTAL', gap: 16, nofill: true });
     for (const [n, hex] of [['surface/0 · canvas', EXACT.s0], ['surface/1 · base', EXACT.s1], ['surface/2 · raised', EXACT.s2], ['surface/3 · overlay', EXACT.s3]]) {
-      const c = F(brow, { gap: 6, nofill: true, ai: 'CENTER' });
+      const c = F(brow, { gap: 8, nofill: true, ai: 'CENTER' });
       F(c, { w: 120, h: 64, rawfill: hex, radius: 4, bstroke: 'border/hairline' });
       T(c, n, 'code', 'text/muted');
     }
@@ -499,17 +499,17 @@ function buildFoundations(page) {
     const row = F(sec, { dir: 'HORIZONTAL', gap: 32, nofill: true, ai: 'CENTER' });
     // focus
     const fc = F(row, { gap: 8, nofill: true, ai: 'CENTER' });
-    const fb = F(fc, { dir: 'HORIZONTAL', px: 16, py: 10, radius: 4, fill: 'surface/1', bstroke: 'focus/ring', sw: 2, align: 'OUTSIDE', gap: 8, ai: 'CENTER' });
+    const fb = F(fc, { dir: 'HORIZONTAL', px: 16, py: 8, radius: 4, fill: 'surface/1', bstroke: 'focus/ring', sw: 2, align: 'OUTSIDE', gap: 8, ai: 'CENTER' });
     T(fb, 'Focus', 'body-md', 'text/default');
     T(fc, 'focus/ring · 2px outside · offset 2px', 'code', 'text/muted');
     // disabled
     const dc = F(row, { gap: 8, nofill: true, ai: 'CENTER' });
-    const db = F(dc, { dir: 'HORIZONTAL', px: 16, py: 10, radius: 4, fill: 'disabled/bg', gap: 8, ai: 'CENTER' });
+    const db = F(dc, { dir: 'HORIZONTAL', px: 16, py: 8, radius: 4, fill: 'disabled/bg', gap: 8, ai: 'CENTER' });
     T(db, 'Disabled', 'body-md', 'disabled/fg');
     T(dc, 'disabled/fg on disabled/bg · not focusable', 'code', 'text/muted');
     // selected
     const sc = F(row, { gap: 8, nofill: true, ai: 'CENTER' });
-    const srow2 = F(sc, { dir: 'HORIZONTAL', px: 16, py: 10, fill: 'selected/bg', gap: 8, ai: 'CENTER' });
+    const srow2 = F(sc, { dir: 'HORIZONTAL', px: 16, py: 8, fill: 'selected/bg', gap: 8, ai: 'CENTER' });
     F(srow2, { w: 2, h: 20, fill: 'selected/line' });
     T(srow2, 'Selected', 'body-md', 'text/default');
     T(sc, 'selected/bg + 2px line · aria-selected', 'code', 'text/muted');
@@ -584,7 +584,7 @@ function buildButton(c, P) {
   c.paddingLeft = BTN_PX[s]; c.paddingRight = BTN_PX[s];
   c.cornerRadius = 4;
   c.minHeight = BTN_H[s];
-  const label = v === 'Danger' ? 'Delete 12 ads' : v === 'Primary' ? 'Approve & pause 8' : v === 'Secondary' ? 'View run' : 'Cancel';
+  const label = P.label || (v === 'Danger' ? 'Delete 12 ads' : v === 'Primary' ? 'Approve & pause 8' : v === 'Secondary' ? 'View run' : 'Cancel');
   let fillTok = 'action/default', textTok = 'action/on', borderTok = null;
   if (v === 'Secondary') { fillTok = 'surface/1'; textTok = 'text/default'; borderTok = 'border/hairline'; }
   if (v === 'Tertiary') { fillTok = null; textTok = 'text/default'; }
@@ -643,7 +643,7 @@ function buildTextInput(c, P) {
   const t = P.variant, s = P.size, st = P.state;
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
-  c.itemSpacing = 6;
+  c.itemSpacing = 8;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(280, c.height);
   const field = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', ai: 'CENTER', stretch: true, name: 'field' });
@@ -669,10 +669,10 @@ function buildTextarea(c, P) {
   const b = P.variant, s = P.size, st = P.state;
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
-  c.itemSpacing = 6;
+  c.itemSpacing = 8;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(320, c.height);
-  const area = F(c, { gap: 4, px: 12, py: 10, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'area' });
+  const area = F(c, { gap: 4, px: 12, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'area' });
   if (s === 'Medium') { area.layoutSizingVertical = 'FIXED'; area.resize(area.width, 96); }
   else { area.layoutSizingVertical = 'FIXED'; area.resize(area.width, 128); }
   const body = 'CPA stayed 36% above the $42 target for 48 hours. 17 conversions are delayed by reporting lag.';
@@ -701,7 +701,7 @@ function buildStatusLabel(c, P) {
   c.layoutMode = 'HORIZONTAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.primaryAxisAlignItems = 'CENTER'; c.counterAxisAlignItems = 'CENTER';
-  c.itemSpacing = 6;
+  c.itemSpacing = 8;
   c.paddingLeft = s === 'Small' ? 8 : 10; c.paddingRight = s === 'Small' ? 8 : 10;
   c.paddingTop = s === 'Small' ? 4 : 6; c.paddingBottom = s === 'Small' ? 4 : 6;
   c.cornerRadius = 2;
@@ -779,7 +779,7 @@ function buildKeyValueRow(c, P) {
   c.layoutMode = 'HORIZONTAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.primaryAxisAlignItems = 'CENTER'; c.counterAxisAlignItems = 'CENTER';
-  c.itemSpacing = 16;
+  c.itemSpacing = 8;
   c.paddingLeft = 12; c.paddingRight = 12;
   c.paddingTop = s === 'Compact' ? 6 : 10; c.paddingBottom = s === 'Compact' ? 6 : 10;
   const lab = F(c, { w: 160, nofill: true }); lab.layoutSizingHorizontal = 'FIXED';
@@ -805,7 +805,7 @@ function buildEventRow(c, P) {
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.itemSpacing = 4;
-  const row = F(c, { dir: 'HORIZONTAL', gap: 12, px: 12, stretch: true, ai: 'CENTER', name: 'row' });
+  const row = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'row' });
   row.paddingTop = s === 'Compact' ? 6 : 8; row.paddingBottom = s === 'Compact' ? 6 : 8;
   if (st === 'Hover') row.setBoundVariable('fills', VV['surface/1']);
   if (st === 'Selected') { row.setBoundVariable('fills', VV['selected/bg']); leftLine(row, 'selected/line'); }
@@ -911,17 +911,17 @@ function buildCheckbox(c, P) {
   c.layoutMode = 'HORIZONTAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.counterAxisAlignItems = desc ? 'MIN' : 'CENTER';
-  c.itemSpacing = 10;
-  const b = F(c, { w: box, h: box, radius: 4, name: 'box', ai: 'CENTER' });
+  c.itemSpacing = 8;
+  const b = F(c, { w: box, h: box, radius: 4, name: 'box', ai: 'CENTER', bstroke: checked && !dis ? undefined : st === 'Error' ? 'status/danger/text' : 'border/strong' });
   b.layoutSizingHorizontal = 'FIXED'; b.layoutSizingVertical = 'FIXED';
   b.primaryAxisAlignItems = 'CENTER';
   if (checked && !dis) b.setBoundVariable('fills', VV['action/default']);
-  else { b.setBoundVariable('fills', VV['surface/1']); b.strokes = [{ type: 'SOLID', color: hx('#000') }]; b.setBoundVariable('strokes', VV[st === 'Error' ? 'status/danger/text' : 'border/strong']); b.strokeWeight = 1; b.strokeAlign = 'INSIDE'; }
+  else b.setBoundVariable('fills', VV['surface/1']);
   if (dis) { b.fills = []; b.setBoundVariable('fills', VV['disabled/bg']); }
   if (st === 'Focus') ring(b, 'focus/ring');
   if (st === 'Hover' && !checked) { b.strokes = [{ type: 'SOLID', color: hx('#000') }]; b.setBoundVariable('strokes', VV['border/strong']); }
   if (checked) {
-    if (st === 'Mixed') { F(b, { w: 8, h: 2, rawfill: '#FFFFFF', radius: 1 }); }
+    if (st === 'Mixed') { F(b, { w: 8, h: 2, rawfill: '#FFFFFF', radius: 2 }); }
     else IC(b, 'check', 12, 'action/on');
   }
   const tx = F(c, { gap: 2, nofill: true });
@@ -940,7 +940,7 @@ function buildRadio(c, P) {
   c.layoutMode = 'HORIZONTAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.counterAxisAlignItems = desc ? 'MIN' : 'CENTER';
-  c.itemSpacing = 10;
+  c.itemSpacing = 8;
   const b = figma.createEllipse();
   b.resize(box, box);
   b.fills = [];
@@ -1061,7 +1061,7 @@ function buildTable(c, P) {
   // header
   const head = F(c, { dir: 'HORIZONTAL', gap: 0, stretch: true, fill: 'surface/2', name: 'header' });
   head.paddingTop = py; head.paddingBottom = py; head.counterAxisAlignItems = 'CENTER';
-  if (sel) { const cc = tcell(head, 44); const bx = F(cc, { w: 16, h: 16, radius: 4, fill: 'action/default', ai: 'CENTER' }); bx.layoutSizingHorizontal = 'FIXED'; bx.layoutSizingVertical = 'FIXED'; F(bx, { w: 8, h: 2, rawfill: '#FFFFFF', radius: 1 }); }
+  if (sel) { const cc = tcell(head, 44); const bx = F(cc, { w: 16, h: 16, radius: 4, fill: 'action/default', ai: 'CENTER' }); bx.layoutSizingHorizontal = 'FIXED'; bx.layoutSizingVertical = 'FIXED'; F(bx, { w: 8, h: 2, rawfill: '#FFFFFF', radius: 2 }); }
   const h1 = tcell(head, 0); h1.layoutSizingHorizontal = 'FILL';
   T(h1, 'Run / action', 'overline', 'text/muted');
   const h2 = tcell(head, 120); T(h2, 'Owner', 'overline', 'text/muted');
@@ -1078,7 +1078,7 @@ function buildTable(c, P) {
 
   function statusMini(parent, tone, label) {
     const m = { Warning: 'status/warning/text', Danger: 'status/danger/text', Success: 'status/success/text' }[tone];
-    const l = F(parent, { dir: 'HORIZONTAL', gap: 6, px: 8, py: 4, radius: 2, ai: 'CENTER' });
+    const l = F(parent, { dir: 'HORIZONTAL', gap: 8, px: 8, py: 4, radius: 2, ai: 'CENTER' });
     l.strokes = [{ type: 'SOLID', color: hx('#000') }]; l.setBoundVariable('strokes', VV[m]);
     l.strokeWeight = 1; l.strokeAlign = 'INSIDE';
     T(l, label, 'caption', m);
@@ -1087,7 +1087,7 @@ function buildTable(c, P) {
     const row = F(c, { dir: 'HORIZONTAL', gap: 0, stretch: true, name: 'row' });
     row.paddingTop = py; row.paddingBottom = py; row.counterAxisAlignItems = 'CENTER';
     if (selected) { row.setBoundVariable('fills', VV['selected/bg']); }
-    if (sel) { const cc = tcell(row, 44); const bx = F(cc, { w: 16, h: 16, radius: 4, name: 'cbx', ai: 'CENTER' }); bx.layoutSizingHorizontal = 'FIXED'; bx.layoutSizingVertical = 'FIXED'; if (selected) { bx.setBoundVariable('fills', VV['action/default']); IC(bx, 'check', 12, 'action/on'); } else { bx.setBoundVariable('fills', VV['surface/1']); bx.strokes = [{ type: 'SOLID', color: hx('#000') }]; bx.setBoundVariable('strokes', VV['border/strong']); bx.strokeWeight = 1; bx.strokeAlign = 'INSIDE'; } }
+    if (sel) { const cc = tcell(row, 44); const bx = F(cc, { w: 16, h: 16, radius: 4, name: 'cbx', ai: 'CENTER', bstroke: selected ? undefined : 'border/strong' }); bx.layoutSizingHorizontal = 'FIXED'; bx.layoutSizingVertical = 'FIXED'; if (selected) { bx.setBoundVariable('fills', VV['action/default']); IC(bx, 'check', 12, 'action/on'); } else bx.setBoundVariable('fills', VV['surface/1']); }
     const c1 = tcell(row, 0); c1.layoutSizingHorizontal = 'FILL';
     T(c1, r[0], 'body-md', 'text/default'); T(c1, r[1], 'code', 'text/muted');
     const c2 = tcell(row, 120); T(c2, r[2], 'body-md', 'text/default');
@@ -1129,8 +1129,7 @@ function buildTable(c, P) {
   }
   // footer
   HR(c, 'border/hairline');
-  const ft = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER' });
-  ft.paddingTop = 10; ft.paddingBottom = 10;
+  const ft = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', py: 8 });
   T(ft, '3 of 12 runs', 'caption', 'text/muted');
   const sp = F(ft, { nofill: true }); sp.layoutSizingHorizontal = 'FILL';
   T(ft, '‹  1 of 4  ›', 'caption', 'text/muted');
@@ -1170,7 +1169,7 @@ function buildTooltip(c, P) {
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.itemSpacing = 0;
   c.clipsContent = false;
-  const trig = F(c, { dir: 'HORIZONTAL', px: 12, py: 8, radius: 4, gap: 6, ai: 'CENTER', name: 'trigger' });
+  const trig = F(c, { dir: 'HORIZONTAL', px: 12, py: 8, radius: 4, gap: 8, ai: 'CENTER', name: 'trigger' });
   trig.strokes = [{ type: 'SOLID', color: hx('#000') }]; trig.setBoundVariable('strokes', VV['border/strong']);
   trig.strokeWeight = 1; trig.strokeAlign = 'INSIDE'; trig.dashPattern = [4, 4];
   T(trig, 'hover target', 'caption', 'text/muted');
@@ -1256,7 +1255,7 @@ function buildSkeleton(c, P) {
     for (let i = 0; i < 3; i++) {
       const r = F(c, { dir: 'HORIZONTAL', gap: 12, stretch: true, ai: 'CENTER', nofill: true });
       const av = F(r, { w: 24, h: 24, fill: 'surface/3', radius: 999 }); av.layoutSizingHorizontal = 'FIXED'; av.layoutSizingVertical = 'FIXED';
-      const tx = F(r, { gap: 6, nofill: true }); tx.layoutSizingHorizontal = 'FILL';
+      const tx = F(r, { gap: 4, nofill: true }); tx.layoutSizingHorizontal = 'FILL';
       sk(tx, 0, 12); sk(tx, 0, 10);
     }
   }
@@ -1386,12 +1385,9 @@ function buildPopover(c, P) {
   const sp = F(trig, { nofill: true }); sp.layoutSizingHorizontal = 'FILL';
   IC(trig, st === 'Open' ? 'chevron-down' : 'chevron-right', 14, 'text/muted');
   if (st === 'Closed') return;
-  const panel = F(c, { gap: 8, px: 12, py: 12, radius: 4, fill: 'surface/3', stretch: true, name: 'panel' });
+  const panel = F(c, { gap: 8, px: 12, py: 12, radius: 4, fill: 'surface/3', stretch: true, name: 'panel', bstroke: st === 'Error' ? 'status/danger/text' : 'border/hairline' });
   panel.layoutPositioning = 'ABSOLUTE'; panel.y = 44; panel.x = 0;
   panel.layoutSizingHorizontal = 'FIXED'; panel.resize(W, panel.height);
-  panel.strokes = [{ type: 'SOLID', color: hx('#000') }];
-  panel.setBoundVariable('strokes', VV[st === 'Error' ? 'status/danger/text' : 'border/hairline']);
-  panel.strokeWeight = 1; panel.strokeAlign = 'INSIDE';
   if (st === 'Focus-within') ring(panel, 'focus/ring');
   if (kind === 'Menu') {
     for (const [t, sel] of [['Production', true], ['Staging', false], ['Archived', false]]) {
@@ -1402,7 +1398,7 @@ function buildPopover(c, P) {
     }
   } else if (kind === 'Form') {
     T(panel, 'Daily budget cap', 'caption', 'text/muted');
-    const inp = F(panel, { dir: 'HORIZONTAL', px: 10, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, ai: 'CENTER' });
+    const inp = F(panel, { dir: 'HORIZONTAL', px: 12, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, ai: 'CENTER' });
     T(inp, '42', 'body-md', 'text/default');
     const b = F(panel, { dir: 'HORIZONTAL', px: 12, py: 8, radius: 4, fill: 'action/default', stretch: true, ai: 'CENTER' });
     b.primaryAxisAlignItems = 'CENTER';
@@ -1429,41 +1425,41 @@ function buildDialog(c, P) {
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
   if (st === 'Closed') {
-    const t = F(c, { dir: 'HORIZONTAL', px: 16, py: 10, radius: 4, fill: kind === 'Danger' ? 'status/danger/text' : 'action/default', ai: 'CENTER' });
+    const t = F(c, { dir: 'HORIZONTAL', px: 16, py: 8, radius: 4, fill: kind === 'Danger' ? 'status/danger/text' : 'action/default', ai: 'CENTER' });
     t.primaryAxisAlignItems = 'CENTER';
     T(t, kind === 'Danger' ? 'Delete 12 ads' : kind === 'Form' ? 'Reject request' : 'Pause 8 ad sets', 'body-md', 'action/on');
     return;
   }
-  const card = F(c, { gap: 16, px: 24, py: 24, radius: 8, fill: 'surface/3', stretch: true, name: 'card' });
-  card.strokes = [{ type: 'SOLID', color: hx('#000') }];
-  card.setBoundVariable('strokes', VV['border/hairline']);
-  card.strokeWeight = 1; card.strokeAlign = 'INSIDE';
+  const card = F(c, { gap: 16, px: 24, py: 24, radius: 8, fill: 'surface/3', bstroke: 'border/hairline', stretch: true, name: 'card' });
+  // shared card header: header row -> title stack (FILL); icon / caption / trailing are optional
+  const hd = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'header' });
+  const ht = F(hd, { gap: 4, nofill: true }); ht.layoutSizingHorizontal = 'FILL';
   const titles = { Confirm: 'Pause 8 ad sets?', Danger: 'Delete 12 published ads?', Form: 'Reject approval request' };
-  T(card, titles[kind], 'h3', 'text/default');
+  T(ht, titles[kind], 'h4', 'text/default');
   T(card, kind === 'Danger'
     ? 'This permanently deletes 12 published ads. This cannot be undone.'
     : kind === 'Form'
       ? 'A reason is required. It will be written to the audit log with your name and time.'
       : 'Completed steps are kept. You can resume or undo within 24 hours.', 'body-md', 'text/muted');
   if (kind === 'Form') {
-    const ta = F(card, { px: 12, py: 10, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true });
+    const ta = F(card, { px: 12, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true });
     ta.layoutSizingVertical = 'FIXED'; ta.resize(ta.width, 72);
     T(ta, 'Rejection reason…', 'body-md', 'text/muted');
   }
   if (st === 'Error') {
-    const a = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/danger/bg', stretch: true, ai: 'CENTER' });
+    const a = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/danger/bg', stretch: true, ai: 'CENTER' });
     IC(a, 'shield-alert', 14, 'status/danger/text');
     T(a, 'Request failed. No changes were made.', 'body-sm', 'status/danger/text');
   }
   const ft = F(card, { dir: 'HORIZONTAL', gap: 12, stretch: true, name: 'footer' });
   ft.primaryAxisAlignItems = 'END';
-  const cb = F(ft, { px: 16, py: 10, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
-  T(cb, 'Cancel', 'body-md', 'text/default');
-  const pb = F(ft, { dir: 'HORIZONTAL', gap: 8, px: 16, py: 10, radius: 4, ai: 'CENTER' });
-  pb.primaryAxisAlignItems = 'CENTER';
-  pb.setBoundVariable('fills', VV[kind === 'Danger' ? 'status/danger/text' : 'action/default']);
-  if (st === 'Submitting') spinner(pb, 14, 'action/on');
-  T(pb, st === 'Submitting' ? 'Working…' : kind === 'Danger' ? 'Delete 12 ads' : kind === 'Form' ? 'Reject request' : 'Pause 8 ad sets', 'body-md', 'action/on');
+  const cb = F(ft, {}); buildButton(cb, { variant: 'Secondary', size: 'Medium', state: 'Default', label: 'Cancel' });
+  const pb = F(ft, {});
+  buildButton(pb, {
+    variant: kind === 'Danger' ? 'Danger' : 'Primary', size: 'Medium',
+    state: st === 'Submitting' ? 'Loading' : 'Default',
+    label: st === 'Submitting' ? 'Working' : kind === 'Danger' ? 'Delete 12 ads' : kind === 'Form' ? 'Reject request' : 'Pause 8 ad sets'
+  });
 }
 
 // ---------------- B14 · Drawer ----------------
@@ -1476,16 +1472,14 @@ function buildDrawer(c, P) {
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
   if (st === 'Closed') {
-    const t = F(c, { dir: 'HORIZONTAL', px: 16, py: 10, radius: 4, fill: 'action/default', ai: 'CENTER' });
+    const t = F(c, { dir: 'HORIZONTAL', px: 16, py: 8, radius: 4, fill: 'action/default', ai: 'CENTER' });
     t.primaryAxisAlignItems = 'CENTER';
     T(t, kind === 'Takeover' ? 'Take over' : 'Open details', 'body-md', 'action/on');
     return;
   }
-  const panel = F(c, { gap: 20, px: 24, py: 24, fill: 'surface/3', stretch: true, name: 'panel' });
-  panel.strokes = [{ type: 'SOLID', color: hx('#000') }];
-  panel.setBoundVariable('strokes', VV['border/hairline']);
-  panel.strokeWeight = 1; panel.strokeAlign = 'INSIDE';
-  const hd = F(panel, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
+  const panel = F(c, { gap: 16, px: 24, py: 24, fill: 'surface/3', bstroke: 'border/hairline', stretch: true, name: 'panel' });
+  // shared card header: header row -> title stack (FILL); icon / caption / trailing are optional
+  const hd = F(panel, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'header' });
   const ht = F(hd, { gap: 4, nofill: true }); ht.layoutSizingHorizontal = 'FILL';
   const titles = { Detail: 'run_2841 · Details', Review: 'Review approval', Takeover: 'Take control of run 2841' };
   T(ht, titles[kind], 'h4', 'text/default');
@@ -1496,7 +1490,7 @@ function buildDrawer(c, P) {
   if (st === 'Loading') {
     for (let i = 0; i < 4; i++) { sk(panel, W - 48, 12); }
   } else if (st === 'Error') {
-    const a = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/danger/bg', stretch: true, ai: 'CENTER' });
+    const a = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/danger/bg', stretch: true, ai: 'CENTER' });
     IC(a, 'shield-alert', 14, 'status/danger/text');
     T(a, 'Handover data failed to load. Retry to continue.', 'body-sm', 'status/danger/text');
   } else {
@@ -1512,7 +1506,7 @@ function buildDrawer(c, P) {
       kv('Blocked', 'Pausing the group also affects 4 healthy campaigns.', 'status/warning/text');
       kv('Decision', 'Pause the group, or restore the 4 completed changes.');
       kv('Authority', 'You execute. Agent stays read-only until you return control.');
-      const priv = F(body, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/info/bg', stretch: true, ai: 'CENTER' });
+      const priv = F(body, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/info/bg', stretch: true, ai: 'CENTER' });
       IC(priv, 'shield-check', 14, 'status/info/text');
       T(priv, 'Takeover privacy: nothing you enter is captured — no screenshots, no keystroke logging.', 'body-sm', 'status/info/text');
     } else if (kind === 'Review') {
@@ -1528,21 +1522,19 @@ function buildDrawer(c, P) {
     }
   }
   if (st === 'Read-only') {
-    const a = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/info/bg', stretch: true, ai: 'CENTER' });
+    const a = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/info/bg', stretch: true, ai: 'CENTER' });
     IC(a, 'info', 14, 'status/info/text');
     T(a, 'Read-only — control is held by Maya Chen.', 'body-sm', 'status/info/text');
   }
-  const ft = F(panel, { dir: 'HORIZONTAL', gap: 12, stretch: true });
+  const ft = F(panel, { dir: 'HORIZONTAL', gap: 12, stretch: true, name: 'footer' });
   ft.primaryAxisAlignItems = 'END';
   const dis = st === 'Read-only' || st === 'Loading';
   if (kind === 'Takeover' && !dis) {
-    const rt = F(ft, { px: 8, py: 10, radius: 4, nofill: true });
+    const rt = F(ft, { px: 8, py: 8, radius: 4, nofill: true });
     T(rt, 'Return control to agent', 'body-md', 'action/default');
   }
-  const cb = F(ft, { px: 16, py: 10, radius: 4, fill: dis ? 'disabled/bg' : 'surface/1', bstroke: 'border/hairline' });
-  T(cb, kind === 'Takeover' ? 'Keep paused' : 'Close', 'body-md', dis ? 'disabled/fg' : 'text/default');
-  const pb = F(ft, { px: 16, py: 10, radius: 4, fill: dis ? 'disabled/bg' : 'action/default' });
-  T(pb, kind === 'Takeover' ? 'Take control' : 'Open run', 'body-md', dis ? 'disabled/fg' : 'action/on');
+  const cb = F(ft, {}); buildButton(cb, { variant: 'Secondary', size: 'Medium', state: dis ? 'Disabled' : 'Default', label: kind === 'Takeover' ? 'Keep paused' : 'Close' });
+  const pb = F(ft, {}); buildButton(pb, { variant: 'Primary', size: 'Medium', state: dis ? 'Disabled' : 'Default', label: kind === 'Takeover' ? 'Take control' : 'Open run' });
 }
 
 
@@ -1566,29 +1558,27 @@ function buildApprovalRequest(c, P) {
   c.itemSpacing = 0;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
-  const card = F(c, { gap: 12, px: 20, py: 20, radius: 8, fill: 'surface/3', stretch: true, name: 'card' });
-  card.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  card.setBoundVariable('strokes', VV['border/hairline']);
-  card.strokeWeight = 1; card.strokeAlign = 'INSIDE';
-  const hd = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
+  const card = F(c, { gap: 16, px: 24, py: 24, radius: 8, fill: 'surface/3', bstroke: 'border/hairline', stretch: true, name: 'card' });
+  // shared card header: header row -> title stack (FILL); icon / caption / trailing are optional
+  const hd = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'header' });
   IC(hd, 'shield-check', 16, 'action/default');
-  const ht = F(hd, { gap: 2, nofill: true }); ht.layoutSizingHorizontal = 'FILL';
+  const ht = F(hd, { gap: 4, nofill: true }); ht.layoutSizingHorizontal = 'FILL';
   T(ht, title, 'h4', 'text/default');
   T(ht, 'Approval required', 'caption', 'text/muted');
   // evidence block — independent of the modal, sits above the actions
   T(card, 'Proposed command', 'overline', 'text/muted');
-  const ev = F(card, { px: 12, py: 10, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'evidence' });
+  const ev = F(card, { px: 12, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'evidence' });
   ev.paddingLeft = 20;
   T(ev, action, 'code', 'text/default');
   T(card, ctx, 'body-sm', 'text/muted');
   if (st === 'Approved') {
-    const ok = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
+    const ok = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
     IC(ok, 'check', 14, 'status/success/text');
     T(ok, 'Approved for this turn · recorded at 09:52.', 'body-sm', 'status/success/text');
     return;
   }
   if (st === 'Denied') {
-    const dn = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/danger/bg', stretch: true, ai: 'CENTER' });
+    const dn = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/danger/bg', stretch: true, ai: 'CENTER' });
     IC(dn, 'x', 14, 'status/danger/text');
     T(dn, 'Denied · the agent will propose an alternative.', 'body-sm', 'status/danger/text');
     return;
@@ -1604,51 +1594,51 @@ function buildApprovalRequest(c, P) {
   }
   if (st === 'Error') {
     // fail-closed: the permission scope could not be displayed — no affirmative options
-    const er = F(card, { gap: 10, px: 12, py: 12, radius: 4, fill: 'status/danger/bg', stretch: true, name: 'fail-closed' });
+    const er = F(card, { gap: 12, px: 12, py: 12, radius: 4, fill: 'status/danger/bg', stretch: true, name: 'fail-closed' });
     const erow = F(er, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
     IC(erow, 'shield-alert', 16, 'status/danger/text');
     T(erow, 'The permission scope could not be displayed.', 'body-md', 'status/danger/text');
     T(er, 'For safety, this request cannot be approved.', 'body-sm', 'status/danger/text');
-    const db = F(er, { dir: 'HORIZONTAL', gap: 8, px: 14, py: 9, radius: 4, fill: 'action/default', ai: 'CENTER' });
+    const db = F(er, { dir: 'HORIZONTAL', gap: 8, px: 16, py: 8, radius: 4, fill: 'action/default', ai: 'CENTER' });
     db.primaryAxisAlignItems = 'CENTER';
     T(db, 'Deny and continue', 'body-md', 'action/on');
     T(card, 'Esc decline', 'caption', 'text/muted');
     return;
   }
   if (st === 'Editing') {
-    const ed = F(card, { gap: 10, px: 12, py: 12, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'patch-editor' });
+    const ed = F(card, { gap: 12, px: 12, py: 12, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'patch-editor' });
     const er = F(ed, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
     IC(er, 'pencil', 14, 'text/default');
     T(er, 'Editing proposed patch', 'body-md', 'text/default');
-    const eb = F(ed, { px: 12, py: 10, radius: 4, fill: 'surface/2', stretch: true });
+    const eb = F(ed, { px: 12, py: 8, radius: 4, fill: 'surface/2', stretch: true });
     T(eb, action, 'code', 'text/default');
     T(ed, 'Edits apply to the proposed patch only. The agent re-validates after every edit.', 'caption', 'text/muted');
     const erow = F(ed, { dir: 'HORIZONTAL', gap: 8 });
-    const ce = F(erow, { px: 14, py: 9, radius: 4, fill: 'action/default' });
+    const ce = F(erow, { px: 16, py: 8, radius: 4, fill: 'action/default' });
     T(ce, 'Confirm edit', 'body-md', 'action/on');
-    const cx = F(erow, { px: 14, py: 9, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
+    const cx = F(erow, { px: 16, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
     T(cx, 'Cancel', 'body-md', 'text/default');
     return;
   }
   if (st === 'Unprotected') {
-    const wn = F(card, { gap: 10, px: 12, py: 12, radius: 4, fill: 'status/warning/bg', stretch: true, name: 'vcs-warning' });
+    const wn = F(card, { gap: 12, px: 12, py: 12, radius: 4, fill: 'status/warning/bg', stretch: true, name: 'vcs-warning' });
     const wr = F(wn, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
     IC(wr, 'alert-triangle', 16, 'status/warning/text');
     T(wr, 'Working tree is not version-controlled.', 'body-md', 'status/warning/text');
     T(wn, 'Automatic modes are paused until you confirm. Without version control there is no safety net for agent edits.', 'body-sm', 'status/warning/text');
     const wb = F(wn, { dir: 'HORIZONTAL', gap: 8 });
-    const cf = F(wb, { px: 14, py: 9, radius: 4, fill: 'status/warning/text' });
+    const cf = F(wb, { px: 16, py: 8, radius: 4, fill: 'status/warning/text' });
     T(cf, 'Confirm & continue', 'body-md', 'action/on');
-    const stay = F(wb, { px: 14, py: 9, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
+    const stay = F(wb, { px: 16, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
     T(stay, 'Stay in ask mode', 'body-md', 'text/default');
     return;
   }
   // numbered verbose option rows — no description lines; persistence is explicit
   const opts = F(card, { gap: 8, stretch: true, name: 'options' });
   function optRow(num, label, primary, danger) {
-    const r = F(opts, { dir: 'HORIZONTAL', gap: 10, px: 14, py: 10, radius: 4, stretch: true, ai: 'CENTER', name: 'option' });
+    const r = F(opts, { dir: 'HORIZONTAL', gap: 8, px: 16, py: 8, radius: 4, stretch: true, ai: 'CENTER', name: 'option', bstroke: !primary ? 'border/hairline' : undefined });
     if (primary) r.setBoundVariable('fills', VV['action/default']);
-    else { r.setBoundVariable('fills', VV['surface/1']); r.strokes = [{ type: 'SOLID', color: hx('#000000') }]; r.setBoundVariable('strokes', VV['border/hairline']); r.strokeWeight = 1; r.strokeAlign = 'INSIDE'; }
+    else r.setBoundVariable('fills', VV['surface/1']);
     T(r, num, 'code', primary ? 'action/on' : 'text/muted');
     T(r, label, 'body-md', danger ? 'status/danger/text' : primary ? 'action/on' : 'text/default');
     return r;
@@ -1659,11 +1649,8 @@ function buildApprovalRequest(c, P) {
   const rsp = F(r3, { nofill: true }); rsp.layoutSizingHorizontal = 'FILL';
   T(r3, rule, 'caption', 'text/muted');
   optRow('4', 'No, deny', false, true);
-  const editp = F(card, { dir: 'HORIZONTAL', gap: 6, px: 14, py: 9, radius: 4, ai: 'CENTER', name: 'edit-patch' });
+  const editp = F(card, { dir: 'HORIZONTAL', gap: 8, px: 16, py: 8, radius: 4, ai: 'CENTER', name: 'edit-patch', bstroke: 'border/hairline' });
   editp.setBoundVariable('fills', VV['surface/1']);
-  editp.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  editp.setBoundVariable('strokes', VV['border/hairline']);
-  editp.strokeWeight = 1; editp.strokeAlign = 'INSIDE';
   IC(editp, 'pencil', 14, 'text/default');
   T(editp, 'Edit patch', 'body-md', 'text/default');
   T(card, '1–4 select · e edit patch · Tab add note · Esc decline', 'caption', 'text/muted');
@@ -1680,25 +1667,18 @@ function buildComposer(c, P) {
   const W = s === 'Compact' ? 440 : 560;
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
-  c.itemSpacing = 10;
+  c.itemSpacing = 12;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
   const top = F(c, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
   function seg(items, activeLabel, name) {
-    const g = F(top, { dir: 'HORIZONTAL', gap: 2, px: 4, py: 4, radius: 999, ai: 'CENTER', name: name });
+    const g = F(top, { dir: 'HORIZONTAL', gap: 2, px: 4, py: 4, radius: 999, ai: 'CENTER', name: name, bstroke: 'border/hairline' });
     g.setBoundVariable('fills', VV[dis ? 'disabled/bg' : 'surface/1']);
-    g.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    g.setBoundVariable('strokes', VV['border/hairline']);
-    g.strokeWeight = 1; g.strokeAlign = 'INSIDE';
     for (const k of items) {
       const on = k === activeLabel;
-      const segm = F(g, { px: 12, py: 6, radius: 999, name: 'seg' });
-      if (on) {
-        segm.setBoundVariable('fills', VV['surface/3']);
-        segm.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-        segm.setBoundVariable('strokes', VV['border/strong']);
-        segm.strokeWeight = 1; segm.strokeAlign = 'INSIDE';
-      } else segm.fills = [];
+      const segm = F(g, { px: 12, py: 8, radius: 999, name: 'seg', bstroke: on ? 'border/strong' : undefined });
+      if (on) segm.setBoundVariable('fills', VV['surface/3']);
+      else segm.fills = [];
       T(segm, k, 'body-sm', dis ? 'disabled/fg' : on ? 'text/default' : 'text/muted');
     }
     return g;
@@ -1706,11 +1686,8 @@ function buildComposer(c, P) {
   seg(['Code', 'Ask'], verb, 'verb-switch');
   const sp = F(top, { nofill: true }); sp.layoutSizingHorizontal = 'FILL';
   seg(['Agent', 'Plan'], 'Agent', 'mode-switch');
-  const shellf = F(c, { gap: 10, px: 16, py: 14, radius: 16, stretch: true, name: 'input-shell' });
+  const shellf = F(c, { gap: 12, px: 16, py: 16, radius: 8, stretch: true, name: 'input-shell', bstroke: 'border/hairline' });
   shellf.setBoundVariable('fills', VV[dis ? 'disabled/bg' : 'surface/1']);
-  shellf.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  shellf.setBoundVariable('strokes', VV['border/hairline']);
-  shellf.strokeWeight = 1; shellf.strokeAlign = 'INSIDE';
   if (st === 'Focus') ring(shellf, 'focus/ring');
   T(shellf, verb === 'Code' ? 'Describe what to build…' : 'Ask about the codebase — nothing will change.', 'body-md', dis ? 'disabled/fg' : 'text/muted');
   const irow = F(shellf, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
@@ -1719,11 +1696,8 @@ function buildComposer(c, P) {
   send.setBoundVariable('fills', VV[dis ? 'disabled/bg' : 'action/default']);
   IC(send, 'send', 16, dis ? 'disabled/fg' : 'action/on');
   if (st === 'Working') {
-    const q = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, stretch: true, ai: 'CENTER', name: 'queued' });
+    const q = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, stretch: true, ai: 'CENTER', name: 'queued', bstroke: 'border/hairline' });
     q.setBoundVariable('fills', VV['surface/1']);
-    q.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    q.setBoundVariable('strokes', VV['border/hairline']);
-    q.strokeWeight = 1; q.strokeAlign = 'INSIDE';
     IC(q, 'clock', 14, 'text/muted');
     const qc = F(q, { gap: 2, nofill: true }); qc.layoutSizingHorizontal = 'FILL';
     T(qc, 'Queued · sends when the agent finishes', 'caption', 'text/muted');
@@ -1751,8 +1725,7 @@ function buildExecutionTimeline(c, P) {
     return d;
   }
   if (kind === 'Step') {
-    const row = F(c, { dir: 'HORIZONTAL', gap: 10, px: 12, stretch: true, ai: 'CENTER', name: 'step-row' });
-    row.paddingTop = 8; row.paddingBottom = 8;
+    const row = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'step-row', py: 8 });
     IC(row, st === 'Expanded' ? 'chevron-down' : 'chevron-right', 14, 'text/muted');
     if (st === 'Running') spinner(row, 14, 'action/default');
     else row.appendChild(dot(st === 'Expanded' ? 'action/default' : 'status/success/text', false));
@@ -1762,20 +1735,16 @@ function buildExecutionTimeline(c, P) {
     if (st === 'Expanded') {
       const wrap = F(c, { dir: 'HORIZONTAL', stretch: true, nofill: true, name: 'detail-wrap' });
       const ind = F(wrap, { w: 30, nofill: true }); ind.layoutSizingHorizontal = 'FIXED';
-      const det = F(wrap, { gap: 4, px: 12, py: 10, radius: 4, name: 'detail' });
+      const det = F(wrap, { gap: 4, px: 12, py: 8, radius: 4, name: 'detail', bstroke: 'border/hairline' });
       det.layoutSizingHorizontal = 'FILL';
       det.setBoundVariable('fills', VV['surface/1']);
-      det.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-      det.setBoundVariable('strokes', VV['border/hairline']);
-      det.strokeWeight = 1; det.strokeAlign = 'INSIDE';
       T(det, '$ npm test -- --coverage', 'code', 'text/muted');
       T(det, '42 passed · 0 failed · 12s', 'code', 'text/default');
     }
     return;
   }
   if (kind === 'Summary') {
-    const row = F(c, { dir: 'HORIZONTAL', gap: 10, px: 12, stretch: true, ai: 'CENTER', name: 'summary-row' });
-    row.paddingTop = 8; row.paddingBottom = 8;
+    const row = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'summary-row', py: 8 });
     IC(row, 'chevron-right', 14, 'text/muted');
     T(row, 'Explored 12 files, 4 searches', 'body-sm', 'text/default');
     const fsp = F(row, { nofill: true }); fsp.layoutSizingHorizontal = 'FILL';
@@ -1783,17 +1752,15 @@ function buildExecutionTimeline(c, P) {
     return;
   }
   if (kind === 'Effort') {
-    const row = F(c, { dir: 'HORIZONTAL', gap: 10, px: 12, stretch: true, ai: 'CENTER', name: 'effort-header' });
-    row.paddingTop = 10; row.paddingBottom = 10;
+    const row = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'effort-header', py: 8 });
     IC(row, 'clock', 14, 'text/muted');
-    T(row, 'Worked for 4m 13s', 'body-md', 'text/default');
+    T(row, 'Worked for 4m 13s', 'body-sm', 'text/default');
     const fsp = F(row, { nofill: true }); fsp.layoutSizingHorizontal = 'FILL';
     T(row, 'Step 3/8', 'caption', 'text/muted');
     return;
   }
   // Error
-  const row = F(c, { dir: 'HORIZONTAL', gap: 10, px: 12, stretch: true, ai: 'CENTER', name: 'error-row' });
-  row.paddingTop = 8; row.paddingBottom = 8;
+  const row = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'error-row', py: 8 });
   row.setBoundVariable('fills', VV['status/danger/bg']);
   IC(row, 'x', 14, 'status/danger/text');
   T(row, 'Tests failed · 3 errors', 'body-sm', 'status/danger/text');
@@ -1840,12 +1807,9 @@ function buildStatusBar(c, P) {
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(560, c.height);
-  const bar = F(c, { dir: 'HORIZONTAL', gap: 10, px: 12, stretch: true, ai: 'CENTER', name: 'status-bar' });
+  const bar = F(c, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'status-bar', bstroke: 'border/hairline' });
   bar.layoutSizingVertical = 'FIXED'; bar.resize(bar.width, 36);
   bar.setBoundVariable('fills', VV['surface/1']);
-  bar.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  bar.setBoundVariable('strokes', VV['border/hairline']);
-  bar.strokeWeight = 1; bar.strokeAlign = 'INSIDE';
   bar.cornerRadius = 4;
   const segs = paused
     ? [['pause', 'Paused · agent is holding']]
@@ -1869,23 +1833,17 @@ function buildReviewBar(c, P) {
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(560, c.height);
-  const bar = F(c, { dir: 'HORIZONTAL', gap: 12, px: 16, py: 12, radius: 8, stretch: true, ai: 'CENTER', name: 'review-bar' });
+  const bar = F(c, { dir: 'HORIZONTAL', gap: 12, px: 16, py: 12, radius: 8, stretch: true, ai: 'CENTER', name: 'review-bar', bstroke: 'border/hairline' });
   bar.setBoundVariable('fills', VV[dis ? 'disabled/bg' : 'surface/3']);
-  bar.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  bar.setBoundVariable('strokes', VV['border/hairline']);
-  bar.strokeWeight = 1; bar.strokeAlign = 'INSIDE';
   IC(bar, 'eye', 16, dis ? 'disabled/fg' : 'text/default');
   const tx = F(bar, { gap: 2, nofill: true }); tx.layoutSizingHorizontal = 'FILL';
   T(tx, '2 files need review', 'body-md', dis ? 'disabled/fg' : 'text/default');
   T(tx, 'Review is separate from approval.', 'caption', dis ? 'disabled/fg' : 'text/muted');
-  const keep = F(bar, { px: 14, py: 9, radius: 4, name: 'keep-all' });
+  const keep = F(bar, { px: 16, py: 8, radius: 4, name: 'keep-all' });
   keep.setBoundVariable('fills', VV[dis ? 'disabled/bg' : 'action/default']);
   T(keep, 'Keep all', 'body-md', dis ? 'disabled/fg' : 'action/on');
-  const undo = F(bar, { px: 14, py: 9, radius: 4, name: 'undo-all' });
+  const undo = F(bar, { px: 16, py: 8, radius: 4, name: 'undo-all', bstroke: 'border/hairline' });
   undo.setBoundVariable('fills', VV[dis ? 'disabled/bg' : 'surface/1']);
-  undo.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  undo.setBoundVariable('strokes', VV['border/hairline']);
-  undo.strokeWeight = 1; undo.strokeAlign = 'INSIDE';
   T(undo, 'Undo all', 'body-md', dis ? 'disabled/fg' : 'status/danger/text');
 }
 
@@ -1905,33 +1863,24 @@ function buildDiffViewer(c, P) {
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
-  const panel = F(c, { gap: 0, radius: 8, stretch: true, name: 'diff-panel' });
+  const panel = F(c, { gap: 0, radius: 8, stretch: true, name: 'diff-panel', bstroke: 'border/hairline' });
   panel.setBoundVariable('fills', VV['surface/1']);
-  panel.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  panel.setBoundVariable('strokes', VV['border/hairline']);
-  panel.strokeWeight = 1; panel.strokeAlign = 'INSIDE';
-  const hd = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'header' });
-  hd.paddingTop = 10; hd.paddingBottom = 10;
+  const hd = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'header', py: 8 });
   IC(hd, 'x', 14, 'text/muted');
   T(hd, 'Diff', 'body-md', 'text/default');
-  const sw = F(hd, { dir: 'HORIZONTAL', gap: 2, px: 3, py: 3, radius: 999, ai: 'CENTER', name: 'source-switcher' });
+  const sw = F(hd, { dir: 'HORIZONTAL', gap: 2, px: 4, py: 4, radius: 999, ai: 'CENTER', name: 'source-switcher' });
   sw.setBoundVariable('fills', VV['surface/2']);
   for (const k of ['Current', 'T1', 'T2']) {
     const on = k === 'Current';
-    const sg = F(sw, { px: 10, py: 4, radius: 999 });
-    if (on) {
-      sg.setBoundVariable('fills', VV['surface/3']);
-      sg.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-      sg.setBoundVariable('strokes', VV['border/strong']);
-      sg.strokeWeight = 1; sg.strokeAlign = 'INSIDE';
-    } else sg.fills = [];
+    const sg = F(sw, { px: 12, py: 4, radius: 999, bstroke: on ? 'border/strong' : undefined });
+    if (on) sg.setBoundVariable('fills', VV['surface/3']);
+    else sg.fills = [];
     T(sg, k, 'caption', on ? 'text/default' : 'text/muted');
   }
   const fsp = F(hd, { nofill: true }); fsp.layoutSizingHorizontal = 'FILL';
   T(hd, 'Docked', 'caption', 'text/muted');
   DIFF_FILES.forEach((f, i) => {
-    const row = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'file-row' });
-    row.paddingTop = 8; row.paddingBottom = 8;
+    const row = F(panel, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', name: 'file-row', py: 8 });
     T(row, f[0], 'code', 'text/default');
     T(row, f[1], 'caption', 'status/success/text');
     T(row, f[2], 'caption', 'status/danger/text');
@@ -1941,14 +1890,13 @@ function buildDiffViewer(c, P) {
       IC(ak, 'check', 12, 'status/success/text');
       T(ak, 'asked ✓', 'caption', 'status/success/text');
     } else {
-      const ab = F(row, { px: 10, py: 5, radius: 4, name: 'ask-file' });
+      const ab = F(row, { px: 12, py: 4, radius: 4, name: 'ask-file' });
       ab.setBoundVariable('fills', VV['surface/2']);
       T(ab, 'Ask', 'caption', 'text/default');
     }
     if (i < DIFF_FILES.length - 1) HR(panel, 'border/hairline');
   });
-  const dl = F(panel, { gap: 0, stretch: true, name: 'diff-lines' });
-  dl.paddingTop = 8; dl.paddingBottom = 8;
+  const dl = F(panel, { gap: 0, stretch: true, name: 'diff-lines', py: 8 });
   const l1 = F(dl, { px: 12, stretch: true });
   l1.setBoundVariable('fills', VV['status/danger/bg']);
   T(l1, '-  "daily_cap": 610,', 'code', 'status/danger/text');
@@ -1966,13 +1914,10 @@ function buildLayoutFrames(c, P) {
   c.itemSpacing = 8;
   const sch = F(c, { dir: 'HORIZONTAL', gap: 4, name: 'schematic' });
   function frameLabel(parent, label, w, h) {
-    const f = F(parent, { gap: 6, px: 12, py: 12, radius: 8, name: label });
+    const f = F(parent, { gap: 8, px: 12, py: 12, radius: 8, name: label, bstroke: 'border/hairline' });
     f.layoutSizingHorizontal = 'FIXED'; f.layoutSizingVertical = 'FIXED';
     f.resize(w, h);
     f.setBoundVariable('fills', VV['surface/1']);
-    f.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    f.setBoundVariable('strokes', VV['border/hairline']);
-    f.strokeWeight = 1; f.strokeAlign = 'INSIDE';
     T(f, label, 'overline', 'text/muted');
     return f;
   }
@@ -2028,31 +1973,22 @@ function buildShortcutHelp(c, P) {
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
   if (v === 'Bar') {
-    const bar = F(c, { dir: 'HORIZONTAL', gap: 12, px: 12, py: 8, radius: 4, ai: 'CENTER', name: 'shortcuts-bar' });
+    const bar = F(c, { dir: 'HORIZONTAL', gap: 12, px: 12, py: 8, radius: 4, ai: 'CENTER', name: 'shortcuts-bar', bstroke: 'border/hairline' });
     bar.setBoundVariable('fills', VV['surface/1']);
-    bar.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    bar.setBoundVariable('strokes', VV['border/hairline']);
-    bar.strokeWeight = 1; bar.strokeAlign = 'INSIDE';
     T(bar, '? shortcuts · Esc decline · Ctrl+O transcript · Ctrl+T checklist', 'caption', 'text/muted');
     return;
   }
   const W = 420;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
-  const panel = F(c, { gap: 4, px: 20, py: 20, radius: 8, stretch: true, name: 'panel' });
+  const panel = F(c, { gap: 4, px: 20, py: 20, radius: 8, stretch: true, name: 'panel', bstroke: 'border/hairline' });
   panel.setBoundVariable('fills', VV['surface/3']);
-  panel.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  panel.setBoundVariable('strokes', VV['border/hairline']);
-  panel.strokeWeight = 1; panel.strokeAlign = 'INSIDE';
   T(panel, 'Keyboard shortcuts', 'h4', 'text/default');
   const gap = F(panel, { h: 8, nofill: true }); gap.layoutSizingVertical = 'FIXED';
   SC_ROWS.forEach((r, i) => {
     const row = F(panel, { dir: 'HORIZONTAL', gap: 12, stretch: true, ai: 'CENTER', name: 'sc-row' });
-    const kbd = F(row, { px: 8, py: 4, radius: 4, name: 'kbd' });
+    const kbd = F(row, { px: 8, py: 4, radius: 4, name: 'kbd', bstroke: 'border/hairline' });
     kbd.setBoundVariable('fills', VV['surface/2']);
-    kbd.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    kbd.setBoundVariable('strokes', VV['border/hairline']);
-    kbd.strokeWeight = 1; kbd.strokeAlign = 'INSIDE';
     T(kbd, r[0], 'code', 'text/default');
     T(row, r[1], 'body-sm', 'text/muted');
     if (i < SC_ROWS.length - 1) HR(panel, 'border/hairline');
@@ -2067,11 +2003,8 @@ function coreShell(title, desc) {
     c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
     c.layoutSizingHorizontal = 'FIXED';
     c.resize(320, c.height);
-    const f = F(c, { gap: 8, px: 16, py: 16, radius: 8, stretch: true, name: 'roadmap-shell' });
+    const f = F(c, { gap: 8, px: 16, py: 16, radius: 8, stretch: true, name: 'roadmap-shell', bstroke: 'border/hairline' });
     f.setBoundVariable('fills', VV['surface/1']);
-    f.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    f.setBoundVariable('strokes', VV['border/hairline']);
-    f.strokeWeight = 1; f.strokeAlign = 'INSIDE';
     T(f, 'CORE · ROADMAP', 'overline', 'text/muted');
     T(f, title, 'h4', 'text/default');
     T(f, desc, 'body-sm', 'text/muted');
@@ -2103,19 +2036,15 @@ function buildAutonomySelector(c, P) {
   const dis = st === 'Disabled';
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
-  c.itemSpacing = 10;
+  c.itemSpacing = 12;
   const ctl = F(c, { dir: 'HORIZONTAL', gap: 2, px: 4, py: 4, radius: 999, fill: 'surface/1', bstroke: 'border/hairline', ai: 'CENTER', name: 'segmented' });
   ctl.primaryAxisAlignItems = 'CENTER';
   if (st === 'Focus') ring(ctl, 'focus/ring');
   for (const k of AM_MODES) {
     const active = k === mode;
-    const seg = F(ctl, { px: s === 'Compact' ? 10 : 14, py: 8, radius: 999, name: 'seg' });
-    if (active) {
-      seg.setBoundVariable('fills', VV['surface/3']);
-      seg.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-      seg.setBoundVariable('strokes', VV['border/strong']);
-      seg.strokeWeight = 1; seg.strokeAlign = 'INSIDE';
-    } else seg.fills = [];
+    const seg = F(ctl, { px: s === 'Compact' ? 12 : 16, py: 8, radius: 999, name: 'seg', bstroke: active ? 'border/strong' : undefined });
+    if (active) seg.setBoundVariable('fills', VV['surface/3']);
+    else seg.fills = [];
     T(seg, AM_LABEL[k], 'body-md', dis ? 'disabled/fg' : active ? 'text/default' : 'text/muted');
   }
   T(c, AM_DESC[mode], 'body-sm', dis ? 'disabled/fg' : 'text/muted');
@@ -2124,13 +2053,9 @@ function buildAutonomySelector(c, P) {
   sb.primaryAxisAlignItems = 'CENTER';
   for (const k of SB_MODES) {
     const on = k === 'Workspace-write';
-    const seg = F(sb, { px: s === 'Compact' ? 10 : 12, py: 6, radius: 999, name: 'sb-seg' });
-    if (on) {
-      seg.setBoundVariable('fills', VV['surface/3']);
-      seg.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-      seg.setBoundVariable('strokes', VV['border/strong']);
-      seg.strokeWeight = 1; seg.strokeAlign = 'INSIDE';
-    } else seg.fills = [];
+    const seg = F(sb, { px: 12, py: 8, radius: 999, name: 'sb-seg', bstroke: on ? 'border/strong' : undefined });
+    if (on) seg.setBoundVariable('fills', VV['surface/3']);
+    else seg.fills = [];
     T(seg, k, 'body-sm', dis ? 'disabled/fg' : on ? 'text/default' : 'text/muted');
   }
   T(c, 'Approval mode controls what the agent may do. Sandbox controls where it may do it.', 'caption', dis ? 'disabled/fg' : 'text/muted');
@@ -2160,16 +2085,15 @@ function buildPlanCard(c, P) {
   c.itemSpacing = 0;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
-  const card = F(c, { gap: 14, px: 24, py: 24, radius: 8, fill: 'surface/3', stretch: true, name: 'card' });
-  card.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  card.setBoundVariable('strokes', VV['border/hairline']);
-  card.strokeWeight = 1; card.strokeAlign = 'INSIDE';
+  const card = F(c, { gap: 16, px: 24, py: 24, radius: 8, fill: 'surface/3', bstroke: 'border/hairline', stretch: true, name: 'card' });
   T(card, 'PLAN MODE · run_2841', 'overline', 'text/muted');
-  T(card, 'Implementation plan — 5 steps', 'h3', 'text/default');
+  // shared card header: header row -> title stack (FILL); icon / caption / trailing are optional
+  const hd = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'header' });
+  const ht = F(hd, { gap: 4, nofill: true }); ht.layoutSizingHorizontal = 'FILL';
+  T(ht, 'Implementation plan — 5 steps', 'h4', 'text/default');
   const steps = F(card, { gap: 0, stretch: true, fill: 'surface/1', radius: 4, bstroke: 'border/hairline', name: 'steps' });
   PLAN_STEPS.forEach((txt, i) => {
-    const r = F(steps, { dir: 'HORIZONTAL', gap: 10, px: 12, stretch: true, ai: 'CENTER' });
-    r.paddingTop = 9; r.paddingBottom = 9;
+    const r = F(steps, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', py: 8 });
     if (act === 'Editing') IC(r, 'list', 14, 'text/muted');
     T(r, String(i + 1).padStart(2, '0'), 'code', 'text/muted');
     T(r, txt, 'body-md', 'text/default');
@@ -2177,7 +2101,7 @@ function buildPlanCard(c, P) {
   });
   T(card, 'Based on codebase research · 12 files read · edit the plan before building.', 'caption', 'text/muted');
   if (st === 'Approved') {
-    const ok = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
+    const ok = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
     IC(ok, 'check', 14, 'status/success/text');
     T(ok, 'Plan approved · building with review on.', 'body-sm', 'status/success/text');
     return;
@@ -2188,7 +2112,7 @@ function buildPlanCard(c, P) {
   if (st !== 'Planning') {
     const opts = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, name: 'options' });
     for (const lbl of ['Approve', 'Approve, keep reviewing', 'Keep planning']) {
-      const b = F(opts, { px: 14, py: 9, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
+      const b = F(opts, { px: 16, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
       T(b, lbl, 'body-md', 'text/default');
     }
   }
@@ -2238,17 +2162,17 @@ function buildCheckpointTimeline(c, P) {
     T(dot, p[1], 'caption', i === 2 ? 'text/default' : 'text/muted');
   });
   if (mode === 'Timeline') return;
-  const pv = F(c, { gap: 10, px: 16, py: 16, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'preview' });
+  const pv = F(c, { gap: 12, px: 16, py: 16, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true, name: 'preview' });
   T(pv, mode === 'Preview' ? 'Preview — files at checkpoint 09:52' : 'Checkpoint 09:52 restored', 'body-md', 'text/default');
   T(pv, '4 files changed since · ad_set_184.json, budget_rules.json, +2 more', 'body-sm', 'text/muted');
   if (mode === 'Preview') {
-    const rb = F(pv, { dir: 'HORIZONTAL', gap: 8, px: 14, py: 9, radius: 4, fill: 'action/default', ai: 'CENTER' });
+    const rb = F(pv, { dir: 'HORIZONTAL', gap: 8, px: 16, py: 8, radius: 4, fill: 'action/default', ai: 'CENTER' });
     rb.primaryAxisAlignItems = 'CENTER';
     IC(rb, 'history', 14, 'action/on');
     T(rb, 'Restore checkpoint', 'body-md', 'action/on');
     T(pv, 'Restores files only. Conversation untouched.', 'caption', 'text/muted');
   } else {
-    const ok = F(pv, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
+    const ok = F(pv, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
     IC(ok, 'check', 14, 'status/success/text');
     T(ok, 'Files restored at 09:54. Conversation kept.', 'body-sm', 'status/success/text');
   }
@@ -2272,23 +2196,20 @@ function buildTaskBoard(c, P) {
   T(hd, col === 'Ready' ? '1' : '2', 'caption', 'text/muted');
   const body = F(c, { gap: 8, px: 8, py: 8, stretch: true, fill: 'surface/1', name: 'col-body' });
   function tcard(title, meta, withActions) {
-    const t = F(body, { gap: 6, px: 12, py: 12, radius: 4, fill: 'surface/3', stretch: true });
-    t.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-    t.setBoundVariable('strokes', VV['border/hairline']);
-    t.strokeWeight = 1; t.strokeAlign = 'INSIDE';
+    const t = F(body, { gap: 8, px: 12, py: 12, radius: 4, fill: 'surface/3', stretch: true, bstroke: 'border/hairline' });
     T(t, title, 'body-md', 'text/default');
     T(t, meta, 'caption', 'text/muted');
     if (withActions) {
       const r = F(t, { dir: 'HORIZONTAL', gap: 8, stretch: true });
-      const ap = F(r, { px: 12, py: 7, radius: 4, fill: 'action/default' });
+      const ap = F(r, { px: 12, py: 8, radius: 4, fill: 'action/default' });
       T(ap, 'Apply', 'body-sm', 'action/on');
-      const di = F(r, { px: 12, py: 7, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
+      const di = F(r, { px: 12, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline' });
       T(di, 'Dismiss', 'body-sm', 'text/default');
     }
   }
   if (col === 'Ready') {
     tcard('Budget reallocation', 'Isolated copy · 2 files changed', true);
-    const iso = F(body, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/info/bg', stretch: true, ai: 'CENTER' });
+    const iso = F(body, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/info/bg', stretch: true, ai: 'CENTER' });
     IC(iso, 'info', 14, 'status/info/text');
     T(iso, 'Isolated — not applied to the main version until you review and apply.', 'caption', 'status/info/text');
   } else if (col === 'Drafts') {
@@ -2302,8 +2223,7 @@ function buildTaskBoard(c, P) {
     tcard('Checkpoint 09:52', 'Restored once');
   }
   if (st === 'At-capacity') {
-    const cap = F(c, { px: 12, stretch: true, name: 'cap' });
-    cap.paddingTop = 8; cap.paddingBottom = 8;
+    const cap = F(c, { px: 12, stretch: true, name: 'cap', py: 8 });
     T(cap, 'At capacity (1/1) · the next task queues automatically.', 'caption', 'text/muted');
   }
 }
@@ -2316,7 +2236,7 @@ function buildSteerQueue(c, P) {
   const dis = st === 'Disabled';
   c.layoutMode = 'VERTICAL';
   c.primaryAxisSizingMode = 'AUTO'; c.counterAxisSizingMode = 'AUTO';
-  c.itemSpacing = 10;
+  c.itemSpacing = 12;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(480, c.height);
   const bar = F(c, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'input-bar' });
@@ -2329,7 +2249,7 @@ function buildSteerQueue(c, P) {
   inp.strokeWeight = st === 'Focus' ? 2 : 1; inp.strokeAlign = 'INSIDE';
   inp.cornerRadius = 4;
   T(inp, mode === 'Empty' ? 'Steer the agent…' : 'Also check weekends', 'body-md', dis ? 'disabled/fg' : 'text/muted');
-  const send = F(bar, { dir: 'HORIZONTAL', gap: 8, px: 14, py: 10, radius: 4, fill: dis ? 'disabled/bg' : 'action/default', ai: 'CENTER' });
+  const send = F(bar, { dir: 'HORIZONTAL', gap: 8, px: 16, py: 8, radius: 4, fill: dis ? 'disabled/bg' : 'action/default', ai: 'CENTER' });
   send.primaryAxisAlignItems = 'CENTER';
   if (mode === 'Sending') spinner(send, 14, 'action/on');
   T(send, mode === 'Sending' ? 'Sending…' : 'Send now', 'body-md', dis ? 'disabled/fg' : 'action/on');
@@ -2339,8 +2259,7 @@ function buildSteerQueue(c, P) {
       ? ['Skip ad_set_306 for now', 'Also check weekends · sending at next tool call…']
       : ['Skip ad_set_306 for now', 'Also check weekends'];
     items.forEach((txt, i) => {
-      const r = F(q, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER' });
-      r.paddingTop = 9; r.paddingBottom = 9;
+      const r = F(q, { dir: 'HORIZONTAL', gap: 8, px: 12, stretch: true, ai: 'CENTER', py: 8 });
       IC(r, 'list', 14, 'text/muted');
       T(r, txt, 'body-md', 'text/default');
       const sp = F(r, { nofill: true }); sp.layoutSizingHorizontal = 'FILL';
@@ -2369,21 +2288,20 @@ function buildEscalationCard(c, P) {
   c.itemSpacing = 0;
   c.layoutSizingHorizontal = 'FIXED';
   c.resize(W, c.height);
-  const card = F(c, { gap: 12, px: 20, py: 20, radius: 8, fill: 'surface/3', stretch: true, name: 'card' });
-  card.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-  card.setBoundVariable('strokes', VV['border/hairline']);
-  card.strokeWeight = 1; card.strokeAlign = 'INSIDE';
+  const card = F(c, { gap: 16, px: 24, py: 24, radius: 8, fill: 'surface/3', bstroke: 'border/hairline', stretch: true, name: 'card' });
   T(card, 'ESCALATION · needs a human', 'overline', 'status/warning/text');
-  const hd = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER' });
+  // shared card header: header row -> title stack (FILL); icon / caption / trailing are optional
+  const hd = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'header' });
   IC(hd, icon, 16, 'status/warning/text');
-  T(hd, 'Draft reply ready for review', 'h4', 'text/default');
-  const rs = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/warning/bg', stretch: true, ai: 'CENTER' });
+  const ht = F(hd, { gap: 4, nofill: true }); ht.layoutSizingHorizontal = 'FILL';
+  T(ht, 'Draft reply ready for review', 'h4', 'text/default');
+  const rs = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/warning/bg', stretch: true, ai: 'CENTER' });
   T(rs, 'Why: ' + why, 'body-sm', 'status/warning/text');
   T(card, 'Full history attached · 14 messages · customer Acme Inc (Enterprise).', 'caption', 'text/muted');
-  const draft = F(card, { px: 12, py: 10, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true });
+  const draft = F(card, { px: 12, py: 8, radius: 4, fill: 'surface/1', bstroke: 'border/hairline', stretch: true });
   T(draft, '"Thanks for flagging this — I have paused the budget change and a specialist will confirm the reallocation within 2 hours."', 'body-md', 'text/default');
   if (st === 'Resolved') {
-    const ok = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 10, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
+    const ok = F(card, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, fill: 'status/success/bg', stretch: true, ai: 'CENTER' });
     IC(ok, 'check', 14, 'status/success/text');
     T(ok, 'Sent by Maya Chen at 10:12.', 'body-sm', 'status/success/text');
     return;
@@ -2391,16 +2309,11 @@ function buildEscalationCard(c, P) {
   const acts = F(card, { dir: 'HORIZONTAL', gap: 8, stretch: true, ai: 'CENTER', name: 'actions' });
   const defs = [['Send as-is', true], ['Edit & send', false], ['Write fresh', false], ['Mark for training', false]];
   for (const [lbl, primary] of defs) {
-    const b = F(acts, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 9, radius: 4, ai: 'CENTER' });
+    const b = F(acts, { dir: 'HORIZONTAL', gap: 8, px: 12, py: 8, radius: 4, ai: 'CENTER', bstroke: !primary ? 'border/hairline' : undefined });
     b.primaryAxisAlignItems = 'CENTER';
     if (st === 'Sending' && primary) spinner(b, 14, 'action/on');
     if (primary) b.setBoundVariable('fills', VV[st === 'Sending' ? 'action/active' : 'action/default']);
-    else {
-      b.setBoundVariable('fills', VV['surface/1']);
-      b.strokes = [{ type: 'SOLID', color: hx('#000000') }];
-      b.setBoundVariable('strokes', VV['border/hairline']);
-      b.strokeWeight = 1; b.strokeAlign = 'INSIDE';
-    }
+    else b.setBoundVariable('fills', VV['surface/1']);
     T(b, st === 'Sending' && primary ? 'Sending…' : lbl, 'body-md', primary ? 'action/on' : 'text/default');
   }
 }
@@ -2506,7 +2419,7 @@ function buildComponents(page) {
   for (const secName of order) {
     const secFrame = compSection(page, secName, cursor);
     for (const def of DEFS.filter(d => d.section === secName)) {
-      const label = F(secFrame, { gap: 6, nofill: true, name: 'label / ' + def.name });
+      const label = F(secFrame, { gap: 4, nofill: true, name: 'label / ' + def.name });
       T(label, def.name, 'h4', 'text/default');
       T(label, def.variants.length + ' × ' + def.sizes.length + ' × ' + def.states.length + ' variants · ' + def.vname + ' / Size / State', 'caption', 'text/muted');
       buildSet(secFrame, def);
@@ -2664,8 +2577,7 @@ function tpl04(page) {
   inst('Signals / Status label', { Condition: 'Warning', Size: 'Medium', State: 'Default' }, tr);
   const log = F(inner, { gap: 0, stretch: true, fill: 'surface/1', radius: 4, bstroke: 'border/hairline', name: 'log' });
   EV_ROWS.forEach((r, i) => {
-    const row = F(log, { dir: 'HORIZONTAL', gap: 12, px: 12, stretch: true, ai: 'CENTER' });
-    row.paddingTop = 7; row.paddingBottom = 7;
+    const row = F(log, { dir: 'HORIZONTAL', gap: 12, px: 12, stretch: true, ai: 'CENTER', py: 8 });
     T(row, r[0], 'code', 'text/muted');
     T(row, r[1], 'code', 'text/muted');
     T(row, r[2], 'body-sm', 'text/default');
@@ -2724,8 +2636,7 @@ function tpl06(page) {
     ['09:47:32', 'Run paused · waiting for owner', 'PAUSED']
   ];
   mrows.forEach((r, i) => {
-    const row = F(mini, { dir: 'HORIZONTAL', gap: 12, px: 12, stretch: true, ai: 'CENTER' });
-    row.paddingTop = 8; row.paddingBottom = 8;
+    const row = F(mini, { dir: 'HORIZONTAL', gap: 12, px: 12, stretch: true, ai: 'CENTER', py: 8 });
     T(row, r[0], 'code', 'text/muted');
     T(row, r[1], 'body-sm', 'text/default');
     const sp = F(row, { nofill: true }); sp.layoutSizingHorizontal = 'FILL';
@@ -2741,7 +2652,7 @@ function tpl07(page) {
   const c = F(inner, { gap: 12, nofill: true, ai: 'CENTER', stretch: true });
   c.paddingTop = 120;
   T(c, '0', 'display', 'text/muted');
-  T(c, 'No runs match these filters', 'h3', 'text/default');
+  T(c, 'No runs match these filters', 'h4', 'text/default');
   T(c, 'Clear 2 filters to view 12 other runs, or wait for the next scheduled run.', 'body-md', 'text/muted');
   const b = inst('Controls / Button', { Intent: 'Secondary', Size: 'Medium', State: 'Default' }, c);
   setLabel(b, 'Clear 2 filters');
